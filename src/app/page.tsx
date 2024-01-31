@@ -1,113 +1,182 @@
-import Image from 'next/image'
+'use client'
 
-export default function Home() {
+import type { NextPage } from "next";
+import { useEffect, useState } from "react";
+
+const layout: NextPage = () => {
+  const [partyTime, setPartyTime] = useState(false);
+  const [days, setDays] = useState(0);
+  const [hours, setHours] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+
+  useEffect(() => {
+    const target = new Date("02/18/2024 23:59:59");
+
+    const interval = setInterval(() => {
+      const now = new Date();
+      const difference = target.getTime() - now.getTime();
+
+      const d = Math.floor(difference / (1000 * 60 * 60 * 24));
+      setDays(d);
+
+      const h = Math.floor(
+        (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      setHours(h);
+
+      const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      setMinutes(m);
+
+      const s = Math.floor((difference % (1000 * 60)) / 1000);
+      setSeconds(s);
+
+      if (d <= 0 && h <= 0 && m <= 0 && s <= 0) {
+        setPartyTime(true);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className='body'>
+      <div className='navbar'>
+        <div className='navbar-logo'></div>
+        <div className="navbar-items">
+          <a>Home</a>
+          <a>Sobre o Projeto</a>
+          <a>Regras</a>
+          <a>Galeria</a>
+          <a>Equipantes</a>
+          <a>Contato</a>
+          <a>Inscrições</a>
         </div>
       </div>
+      <main className="main">
+        <div className="title-project">
+          <div className="title">Radical</div>
+          <div className="subtitle">São Paulo</div>
+        </div>
+        <div className="text-description">
+          <label className="description">O Projeto Radical São Paulo é um retiro espiritual cristão com duração de um final de semana em um sítio próximo à Aruja - SP, onde centenas de pessoas, famílias e igrejas estão sendo impactadas e desafiadas a tomarem atitudes que agradem à Deus no seu viver diário.</label>
+           <div className="barra"></div>
+        </div>
+        <div className="buttons">
+          <button className="button">Inscreva-se</button>
+          <button className="button">Saiba mais</button>
+        </div>
+      </main>
+      <section className="about">
+        <div className="about-text">
+          <div className="title-about">Quem Somos?</div>
+          <label className="text-about">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop </label>
+          <label className="space">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</label>
+        </div>
+        <div className="images-about">  </div>
+      </section>
+      <section className="countdown-timer">
+          <div className="timer-wrapper">
+              <div className="timer-segment">
+                <span className="time">{days}</span>
+                <span className="label">Days</span>
+              </div>
+              <span className="divider">:</span>
+              <div className="timer-segment">
+                <span className="time">{hours}</span>
+                <span className="label">Hours</span>
+              </div>
+              <span className="divider">:</span>
+              <div className="timer-segment">
+                <span className="time">{minutes}</span>
+                <span className="label">Minutes</span>
+              </div>
+              <span className="divider">:</span>
+              <div className="timer-segment">
+                <span className="time">{seconds}</span>
+                <span className="label">Seconds</span>
+              </div>
+          </div>
+          <div className="text-convince">
+            <label>O tempo está contado, vai perder a chance de fazer parte dessa grande família?</label>
+            <button className="button button1">Inscreva-se</button>
+          </div>
+      </section>
+      <section className="area-calendar">
+        <div className="card-calendar">
+          <div className="text-card">
+            <label className="number-edition">15</label>
+            <label className="text-edition">Edição</label>
+          </div>
+          <label className="data">xx/xx/xx</label>
+          <button className="button-card">Inscreva-se</button>
+        </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+        <div className="card-calendar">
+          <div className="text-card">
+            <label className="number-edition">15</label>
+            <label className="text-edition">Edição</label>
+          </div>
+          <label className="data">xx/xx/xx</label>
+          <button className="button-card">Inscreva-se</button>
+        </div>
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+        <div className="card-calendar">
+          <div className="text-card">
+            <label className="number-edition">15</label>
+            <label className="text-edition">Edição</label>
+          </div>
+          <label className="data">xx/xx/xx</label>
+          <button className="button-card">Inscreva-se</button>
+        </div>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+        <div className="card-calendar">
+          <div className="text-card">
+            <label className="number-edition">15</label>
+            <label className="text-edition">Edição</label>
+          </div>
+          <label className="data">xx/xx/xx</label>
+          <button className="button-card">Inscreva-se</button>
+        </div>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
+        <div className="card-calendar">
+          <div className="text-card">
+            <label className="number-edition">15</label>
+            <label className="text-edition">Edição</label>
+          </div>
+          <label className="data">xx/xx/xx</label>
+          <button className="button-card">Inscreva-se</button>
+        </div>
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+        <div className="card-calendar">
+          <div className="text-card">
+            <label className="number-edition">15</label>
+            <label className="text-edition">Edição</label>
+          </div>
+          <label className="data">xx/xx/xx</label>
+          <button className="button-card">Inscreva-se</button>
+        </div>
+
+        <div className="card-calendar">
+          <div className="text-card">
+            <label className="number-edition">15</label>
+            <label className="text-edition">Edição</label>
+          </div>
+          <label className="data">xx/xx/xx</label>
+          <button className="button-card">Inscreva-se</button>
+        </div>
+
+        <div className="card-calendar">
+          <div className="text-card">
+            <label className="number-edition">15</label>
+            <label className="text-edition">Edição</label>
+          </div>
+          <label className="data">xx/xx/xx</label>
+          <button className="button-card">Inscreva-se</button>
+        </div>
+      </section>
+    </div>
+  );
 }
+
+export default layout;
